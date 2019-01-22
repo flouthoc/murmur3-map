@@ -1,8 +1,11 @@
 package murmur3map
 
-import "errors"
+import ("errors"
+	"../pkg"
+)
 
-type Node{
+
+type Node struct{
 	key string
 	Value interface{}
 }
@@ -15,13 +18,17 @@ type HashMap struct{
 }
 
 
-func (h* HashMap) getIntex(key string) int{
+func (h* HashMap) getIndex(key string) int{
 	return int(hash(key)) % h.size
 }
 
 func hash(key string) uint32{
 
 	//call murmurhash
+	hasher := murmur3.New32()
+	hasher.Write([]byte(key))
+	return hasher.Sum32()
+
 }
 
 
@@ -59,7 +66,7 @@ func (h* HashMap) Set(key string, value interface{}) bool {
 
 	for i := range chain {
 		node := &chain[i]
-		if( node.key == key{
+		if node.key == key {
 			node.Value = value
 			found = true
 		}
