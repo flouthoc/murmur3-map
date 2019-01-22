@@ -1,5 +1,9 @@
 package murmur3map
 
+/*
+	Uses: murmur implementation from github.com/spaolacci/murmur3
+*/
+
 import ("errors"
 	"./pkg"
 )
@@ -11,14 +15,14 @@ type Node struct{
 }
 
 
-type HashMap struct{
+type MurmurMap struct{
 	size int
 	count int
 	buckets [][]Node
 }
 
 
-func (h* HashMap) getIndex(key string) int{
+func (h* MurmurMap) getIndex(key string) int{
 	return int(hash(key)) % h.size
 }
 
@@ -32,8 +36,8 @@ func hash(key string) uint32{
 }
 
 
-func NewHashMap(size int) (*HashMap, error){
-	h := new(HashMap)
+func NewMap(size int) (*MurmurMap, error){
+	h := new(MurmurMap)
 	if size < 1 {
 		return h, errors.New("Size cannot be less than 0")
 	}
@@ -46,7 +50,7 @@ func NewHashMap(size int) (*HashMap, error){
 	return h, nil
 }
 
-func (h *HashMap) Get(key string)(*Node, bool){
+func (h *MurmurMap) Get(key string)(*Node, bool){
 	index := h.getIndex(key)
 	//get bucket for the index
 	chain := h.buckets[index]
@@ -59,7 +63,7 @@ func (h *HashMap) Get(key string)(*Node, bool){
 	return nil, false
 }
 
-func (h* HashMap) Set(key string, value interface{}) bool {
+func (h* MurmurMap) Set(key string, value interface{}) bool {
 	index := h.getIndex(key)
 	chain := h.buckets[index]
 	found := false
@@ -89,7 +93,7 @@ func (h* HashMap) Set(key string, value interface{}) bool {
 }
 
 
-func (h *HashMap) Delete(key string) (*Node, bool){
+func (h *MurmurMap) Delete(key string) (*Node, bool){
 
 	index := h.getIndex(key)
 	chain := h.buckets[index]
