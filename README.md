@@ -2,6 +2,7 @@
 
 Go Fast Object Map based on upon Murmur3
 
+![image](https://raw.githubusercontent.com/flouthoc/murmur3-map/master/static/code.png)
 
 ## Usage
 
