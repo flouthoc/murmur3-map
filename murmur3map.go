@@ -19,10 +19,10 @@ type HashMap struct{
 
 
 func (h* HashMap) getIndex(key string) int{
-	return int(hashfunction(key)) % h.size
+	return int(hash(key)) % h.size
 }
 
-func hashfunction(key string) uint32{
+func hash(key string) uint32{
 
 	//call murmurhash
 	hasher := murmur3.New32()
