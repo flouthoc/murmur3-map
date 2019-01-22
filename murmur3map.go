@@ -1,7 +1,7 @@
 package murmur3map
 
 import ("errors"
-	"../pkg"
+	"./pkg"
 )
 
 
