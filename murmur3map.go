@@ -6,6 +6,7 @@ package murmur3map
 
 import ("errors"
 	"./pkg"
+	"hash"
 )
 
 
@@ -18,26 +19,32 @@ type Node struct{
 type MurmurMap struct{
 	size int
 	count int
+	hasher hash.Hash32
 	buckets [][]Node
 }
 
 
 func (h* MurmurMap) getIndex(key string) int{
-	return int(hash(key)) % h.size
+	return int(h.hash(key)) % h.size
 }
 
-func hash(key string) uint32{
+
+func (h* MurmurMap) hash(key string) uint32{
 
 	//call murmurhash
-	hasher := murmur3.New32()
-	hasher.Write([]byte(key))
-	return hasher.Sum32()
+	h.hasher.Write([]byte(key))
+	return h.hasher.Sum32()
+
+	//return memhash32([])
+
+	//return hasher.Sum([]byte(key))
 
 }
 
 
 func NewMap(size int) (*MurmurMap, error){
 	h := new(MurmurMap)
+	h.hasher = murmur3.New32WithSeed(0x01)
 	if size < 1 {
 		return h, errors.New("Size cannot be less than 0")
 	}
@@ -68,8 +75,7 @@ func (h* MurmurMap) Set(key string, value interface{}) bool {
 	chain := h.buckets[index]
 	found := false
 
-
-	/* remove sequential */
+	/* remove sequential*/
 
 	for i := range chain {
 		node := &chain[i]
