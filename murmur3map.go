@@ -68,6 +68,9 @@ func (h* MurmurMap) Set(key string, value interface{}) bool {
 	chain := h.buckets[index]
 	found := false
 
+
+	/* remove sequential */
+
 	for i := range chain {
 		node := &chain[i]
 		if node.key == key {
