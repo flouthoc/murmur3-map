@@ -1,7 +1,7 @@
 package main
 
 import(
-	".."
+	"../pkg/xxhash"
 	"fmt"
 )
 
@@ -13,13 +13,15 @@ type sampletype struct{
 func main(){
 
 
+	fmt.Println(xxhash.Sum64([]byte("hello")))
+
 	/** Example one **/
-	hashmap,_ := murmur3map.NewMap(100)
+	/*hashmap,_ := murmur3map.NewMap(100)
 	hashmap.Set("keyforstring","Sample Text Value")
 	val, _ := hashmap.Get("keyforstring")
 	fmt.Println(val.Value)
 
-	/** Example Two **/
+	/** Example Two 
 	sampletype_instance := new(sampletype)
 	sampletype_instance.name = "my name is flouthoc"
 
@@ -27,5 +29,5 @@ func main(){
 
 	valtwo,_ := hashmap.Get("keyforobject")
 	obj2,_ := valtwo.Value.(*sampletype)
-	fmt.Println(obj2.name)
+	fmt.Println(obj2.name)*/
 }

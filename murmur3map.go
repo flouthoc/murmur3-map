@@ -5,6 +5,7 @@ package murmur3map
 */
 
 import ("errors"
+	"./pkg/xxhash"
 	"./pkg"
 	"hash"
 )
@@ -29,12 +30,13 @@ func (h* MurmurMap) getIndex(key string) int{
 }
 
 
-func (h* MurmurMap) hash(key string) uint32{
+func (h* MurmurMap) hash(key string) uint64{
 
 	//call murmurhash
-	h.hasher.Write([]byte(key))
-	return h.hasher.Sum32()
+	//----h.hasher.Write([]byte(key))
+	//---return h.hasher.Sum32()
 
+	return xxhash.Sum64([]byte(key))
 	//return memhash32([])
 
 	//return hasher.Sum([]byte(key))
