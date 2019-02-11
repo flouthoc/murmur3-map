@@ -26,7 +26,7 @@ type MurmurMap struct{
 
 
 func (h* MurmurMap) getIndex(key string) int{
-	return int(h.hash(key)) % h.size
+	return int(xxhash.Sum64([]byte(key))) % h.size
 }
 
 
